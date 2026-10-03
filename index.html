@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StockTracker</title>
+    <meta name="description" content="Local stock, dividend and DRIP tracker for small-capital, long-term investors." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Guarded so the app still runs (unstyled) if the CDN can't be reached.
+      if (window.tailwind) tailwind.config = { darkMode: 'class' };
+    </script>
+    <style>
+      body { background-color: #020617; }
+      dialog::backdrop { background: rgb(2 6 23 / 0.75); backdrop-filter: blur(2px); }
+      input[type='number']::-webkit-inner-spin-button { opacity: 0.4; }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-200 antialiased">
+    <header class="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/90 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl" aria-hidden="true">📈</span>
+          <h1 class="text-base font-semibold text-white">StockTracker</h1>
+          <span class="hidden text-xs text-slate-500 sm:inline">· compound growth, one share at a time</span>
+        </div>
+        <div class="ml-auto flex items-center gap-3">
+          <span id="mode-pill" class="rounded-full bg-slate-700/70 px-2.5 py-0.5 text-xs font-medium text-slate-200">Mock data</span>
+          <span id="updated-at" class="hidden text-xs text-slate-400 sm:inline"></span>
+          <button id="refresh-btn" class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800 disabled:opacity-50" title="Refresh quotes now">↻ Refresh</button>
+          <button id="settings-btn" class="rounded-lg bg-slate-800 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-700" title="API keys & settings">⚙ Settings</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl space-y-6 px-4 py-6">
+      <div id="setup-hint" class="rounded-xl border border-sky-500/30 bg-sky-500/5 px-4 py-3 text-sm text-sky-100">
+        You're looking at <strong>mock data</strong>. Add a free Finnhub key (and optionally Alpaca) in
+        <button id="setup-link" class="font-semibold text-sky-300 underline underline-offset-2 hover:text-sky-200">Settings</button>
+        to see real quotes. See the README for step-by-step instructions.
+      </div>
+
+      <div id="exdiv-banner"></div>
+
+      <section id="dashboard" class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6"></section>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <section id="exdiv-calendar" class="min-w-0 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6 lg:col-span-2"></section>
+        <section id="dividends" class="min-w-0 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6 lg:col-span-3"></section>
+      </div>
+
+      <section id="safe-growth" class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6"></section>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <section id="drip" class="min-w-0 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6 lg:col-span-3"></section>
+        <section id="sizer" class="min-w-0 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 sm:p-6 lg:col-span-2"></section>
+      </div>
+
+      <footer class="pb-8 pt-2 text-center text-[11px] text-slate-500">
+        Educational tool, not financial advice. Data may be delayed, estimated or simulated — confirm dates with your broker before trading.
+      </footer>
+    </main>
+
+    <dialog id="settings-dialog" class="rounded-2xl border border-slate-700 bg-slate-900 p-0 text-slate-200 shadow-2xl"></dialog>
+    <div id="toasts" class="pointer-events-none fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2"></div>
+
+    <noscript><p style="color:#fff;padding:1rem">StockTracker needs JavaScript enabled.</p></noscript>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

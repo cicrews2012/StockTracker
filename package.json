@@ -1,0 +1,15 @@
+{
+  "name": "stocktracker",
+  "version": "1.0.0",
+  "description": "Local single-page stock, dividend and DRIP tracker for small-capital long-term investors.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
